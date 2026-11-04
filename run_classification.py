@@ -26,7 +26,7 @@ bd = blink.BlinkDetector(settings)
 
 eyes = ['left', 'right']
 
-dataset = 'Fusion'
+dataset = 'Fusion' ## Matches the sample data of Tobii Pro Glasses 2
 cwd = Path.cwd()
 path_spectrum = cwd / 'data' / 'spectrum'
 path_fusion = cwd / 'data' / 'experiment-f2' ## Input Data folder (grouped by flight phases)
@@ -113,7 +113,7 @@ if 'Spectrum' in dataset:
     df_all_pupil.to_csv('pupil.csv')
 
 
-# %% Run classification for Fusion trials
+# %% Run classification for Fusion trials - adapted for Tobii Pro Glasses 2 for each flight phase
 else:
 
     settings.Fs = 50
