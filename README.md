@@ -7,15 +7,15 @@ This repository contains the analysis code for the study
 > Framework.* Applied Sciences (under review).
 
 It is a fork of the `BlinkDetector` package released by Nyström and colleagues, which analyses the
-performance of blink detection based on two sample data sets. One of the dataset recorded with the Tobii 
-Pro Spectum at 600 Hz and the second one Tobii Pro Fusion at 120 Hz data frequency.
+performance of blink detection based on two sample data sets. One dataset was recorded with the Tobii 
+Pro Spectrum at 600 Hz and the second one with Tobii Pro Fusion at 120 Hz.
 
 The algorithm was adapted to perform the blink detection on the data recorded with **Tobii Pro Glasses 2 at 50 Hz**,
 with sample data collected during three full-motion simulator sessions and one operational flight in a Beechcraft 
 King Air C90GTx.
 
 The algorithm computes the blink-related and pupil-related values reported in **Table 7** of the
-manuscript. Additionally, was extended the logic to also get the fixation-share, bootstrap, scanpath-entropy and 30-second-window analyses reported in **Tables 4, 5 and 6**.
+manuscript. The repository additionally, contains the fixation-share, bootstrap, scanpath-entropy and 30-second-window analyses reported in **Tables 4, 5 and 6**.
 
 ---
 
@@ -52,6 +52,7 @@ Python 3.10 (blink analysis) / Python 3.11 (AOI analysis)
 numpy
 scipy
 pandas
+matplotlib
 ```
 
 ```bash
@@ -194,7 +195,7 @@ used in the manuscript.
 # simulator flights: reads data/experiment-f1, -f2, -f3 
 python analyze_blinks_qc_F123.py
 
-# operational flight: reads data/experiment -BC
+# operational flight: reads data/experiment-BC
 python analyze_blinks_qc_BC.py
 
 # AOI fixation extraction, then variability and scanpath analyses
