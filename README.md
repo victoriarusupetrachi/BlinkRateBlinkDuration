@@ -66,9 +66,13 @@ The scripts read **sample-level data exports from Tobii Pro Lab**, one CSV per f
 comma-separated, at 50 Hz. The raw recordings are not included in this repository: they contain
 cockpit video and participant-related visual data and cannot be released for privacy reasons.
 The column names below are those produced by Tobii Pro Lab and are the only requirement for
-running the code on another dataset.
+running the code on another dataset. The data folder contains the two sample datasets distributed 
+with the original BlinkDetector release, recorded with a Tobii Pro Spectrum at 600 Hz and
+ a Tobii Pro Fusion at 120 Hz. They are provided for run_classification.py, 
+the upstream demonstration script, and are in a different format from the Tobii Pro Glasses 2 
+exports: the blink and AOI scripts in this repository cannot be run on them.
 
-**Blink and pupil analysis** (`analyze_blinks_qc.py`):
+**Blink and pupil analysis** (`analyze_blinks_qc_F123.py` , `analyze_blinks_qc_BC.py`):
 
 | Column | Use |
 |---|---|
@@ -96,7 +100,8 @@ of each script.
 ```
 Tobii Pro Lab export (50 Hz, one CSV per flight phase)
         │
-        ├── analyze_blinks_qc.py
+        ├── analyze_blinks_qc_F123.py (simulator sessions F1, F2, F3)
+        │   analyze_blinks_qc_BC.py   (operational flight)
         │        │
         │        ├── blink.py  →  blink_detector_pupil()      detection
         │        ├── stage 1: duration-based classification
@@ -105,7 +110,8 @@ Tobii Pro Lab export (50 Hz, one CSV per flight phase)
         │        └── pupil-diameter mean and SD on valid samples
         │                 │
         │                 ├── <phase>_<eye>_events.csv        one row per event
-        │                 └── summary_final.csv
+        │                 └── summary_final_F123.csv
+        │                     summary_final_BC.csv
         │
         └── aoi_fixation_extract.py  →  fx_<FLIGHT>_<PHASE>.csv
                  │
@@ -185,23 +191,33 @@ used in the manuscript.
 ## 5. Running the code
 
 ```bash
-# simulator flights: reads data/experiment-f1, -f2, -f3 and -BC
-python analyze_blinks_qc.py
+# simulator flights: reads data/experiment-f1, -f2, -f3 
+python analyze_blinks_qc_F123.py
+
+# operational flight: reads data/experiment -BC
+python analyze_blinks_qc_BC.py
 
 # AOI fixation extraction, then variability and scanpath analyses
 python aoi_fixation_extract.py
 python aoi_variability_analysis.py
 ```
 
-Each script is run from the repository root and writes its outputs to the folders shown in the
-pipeline diagram above. The AOI scripts use a fixed random seed (42), so the bootstrap
+Each script is run from a directory that contains a data folder holding the Tobii Pro Glasses 2 exports 
+it reads: data/experiment-f1, -f2 and -f3 for the simulator script, and data/experiment-BC for the operational one. 
+Each writes its outputs to a final/ subfolder of that directory. The two scripts implement the identical procedure and 
+differ only in the input folder they read and the name of the summary file they write, so the simulator and operational 
+recordings were processed with the same code.
+The AOI scripts use a fixed random seed (42), so the bootstrap
 confidence intervals are reproduced exactly on repeated runs.
 
 ---
 
 ## 6. Output files
 
-### `summary_final.csv` — one row per phase and eye
+The files described below are produced by running the scripts; they are not stored in this repository. 
+The result files underlying Tables 4 to 7 of the manuscript are published as Supplementary Material to the article.
+
+### `summary_final_F123.csv` , `summary_final_BC.csv` — one row per phase and eye
 
 | Column | Meaning |
 |---|---|
